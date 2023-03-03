@@ -8,6 +8,18 @@ const requestLogger = (request, response, next) => {
     next()
   }
 
+  const tokenExtractor = (request, response, next) => {
+    // code that extracts the token
+    const getTokenFrom = request => {
+      const authorization = request.get('authorization')
+      if (authorization && authorization.startsWith('Bearer ')){
+        return authorization.replace('Bearer ', '')
+      }
+      return null
+    }
+    next()
+  }
+
   const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
   }
